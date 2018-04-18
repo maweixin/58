@@ -1,0 +1,51 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd 
+		http://www.springframework.org/schema/mvc 
+		http://www.springframework.org/schema/mvc/spring-mvc.xsd 
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context.xsd 
+		http://www.springframework.org/schema/aop 
+		http://www.springframework.org/schema/aop/spring-aop.xsd 
+		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx.xsd">
+		
+		<mvc:default-servlet-handler/> 
+		<!-- 定义组件扫描包 -->	 
+		<context:component-scan base-package="com.dianwang.controller"/>
+		<mvc:annotation-driven conversion-service="conversionService" />
+		<!-- 定义HanderMapping -->
+		<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" />
+		
+		<!-- 定义HanderApapter -->
+		<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+			<!-- 配置ajax -->
+			<property name="messageConverters">
+				<list>
+					<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
+				</list>
+			</property>
+		</bean>
+	
+		<!-- 定义视图解析器 -->
+		<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+			<!-- 定义视图的前缀 -->
+			<property name="prefix" value="/WEB-INF/jsp/"></property> 
+			<!-- 定义视图的后缀 -->
+			<property name="suffix" value=".jsp"></property>
+		</bean>
+		
+	   	
+		<!-- 配置上传下载配置 -->
+		<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+			<!-- 配置上传的最大值 -->
+			<property name="maxUploadSize" value="10485760" />
+			<!-- 配置字符编码 -->
+			<property name="defaultEncoding" value="UTF-8" />
+		</bean>
+</beans>
